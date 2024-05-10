@@ -3,7 +3,7 @@ import BoardView from '@/views/BoardView.vue'
 import BoardList from '@/components/board/BoardList.vue'
 import MainView from '@/views/MainView.vue'
 import BoardArticle from '@/components/board/BoardArticle.vue'
-
+import BoardWrite from '@/components/board/BoardWrite.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -35,6 +35,11 @@ const router = createRouter({
           path: 'view/:articleno',
           name: 'boardarticle',
           component: BoardArticle
+        },
+        {
+          path: 'write',
+          name: 'boardwrite',
+          component: BoardWrite
         }
       ]
     }

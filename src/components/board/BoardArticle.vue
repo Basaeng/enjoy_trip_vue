@@ -4,9 +4,9 @@ import { onMounted, ref } from 'vue'
 import { useRoute } from 'vue-router'
 import BoardArticleItem from './item/BoardArticleItem.vue'
 
-onMounted(() => {
-  getArticle()
-})
+// onMounted(() => {
+//   getArticle()
+// })
 
 const route = useRoute()
 const articleno = ref(route.params.articleno)
@@ -14,15 +14,15 @@ const article = ref()
 const comments = ref()
 
 const http = Axios()
-const getArticle = () => {
-  http.get(`api/article/${articleno.value}`).then(({ data }) => {
-    console.log(data)
-    article.value = data.article
-    comments.value = data.comments
-    console.log(article.value)
-    console.log(comments.value)
-  })
-}
+// const getArticle = () => {
+//   http.get(`api/article/${articleno.value}`).then(({ data }) => {
+//     console.log(data)
+//     article.value = data.article
+//     comments.value = data.comments
+//     console.log(article.value)
+//     console.log(comments.value)
+//   })
+// }
 </script>
 
 <template>
@@ -33,7 +33,8 @@ const getArticle = () => {
           <mark class="sky">글보기</mark>
         </h2>
       </div>
-      <BoardArticleItem :article="article" :comments="comments" />
+      <!-- <BoardArticleItem :article="article" :comments="comments" /> -->
+      <BoardArticleItem :articleno="articleno" />
     </div>
   </div>
 </template>

@@ -1,25 +1,43 @@
 <script setup>
 import { Axios } from '@/util/http-common'
-import { ref } from 'vue'
+import { onMounted, ref, watchEffect } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 
-defineProps({
-  article: {
-    type: Object,
-    default: () => ({
-      articleNo: 0,
-      memberId: '',
-      subject: '',
-      content: '',
-      hit: 0
-    })
-  },
-  comments: {
-    type: Array
-  }
+// defineProps({
+//   article: {
+//     type: Object,
+//     default: () => ({
+//       articleNo: 0,
+//       memberId: '',
+//       subject: '',
+//       content: '',
+//       hit: 0
+//     })
+//   },
+//   comments: {
+//     type: Array
+//   }
+// })
+const props = defineProps({
+  articleno: Number
+})
+
+const article = ref('')
+const comments = ref('')
+const http = Axios()
+const getArticle = () => {
+  http.get(`api/article/${props.articleno}`).then(({ data }) => {
+    console.log(data)
+    article.value = data.article
+    comments.value = data.comments
+    console.log(article.value)
+    console.log(comments.value)
+  })
+}
+watchEffect(() => {
+  getArticle()
 })
 const router = useRouter()
-const route = useRoute()
 
 const golist = () => {
   router.push({ name: 'board' })
@@ -44,8 +62,6 @@ const showReplyForm = (commentId, buttonElement) => {
 const commentContent = ref('')
 const replyContent = ref('')
 
-const http = Axios()
-
 const registComment = (articleNo) => {
   console.log(articleNo)
   console.log(commentContent.value)
@@ -53,14 +69,16 @@ const registComment = (articleNo) => {
     comment: commentContent.value,
     articleNo: articleNo
   }
-  const comments = ref([])
   http
     .post('/api/comment', requestData)
-    .then((response) => {
-      console.log('댓글이 성공적으로 등록되었습니다.', response.data)
+    .then(({ data }) => {
+      console.log('댓글이 성공적으로 등록되었습니다.', data)
       alert('댓글이 성공적으로 등록되었습니다.')
       // 페이지를 변경합니다.
-      comments.value.push(requestData.comment)
+    })
+    .then(() => {
+      getArticle()
+      router.push(router.currentRoute)
     })
     .catch((error) => {
       console.error('댓글 등록 중 오류가 발생했습니다.', error)
@@ -77,14 +95,16 @@ const registReply = () => {
     parentId,
     articleNo
   }
-  const replys = ref([])
   http
     .post('/api/comment', requestData)
-    .then((response) => {
-      console.log('댓글이 성공적으로 등록되었습니다.', response.data)
+    .then(({ data }) => {
+      console.log('댓글이 성공적으로 등록되었습니다.', data)
       alert('댓글이 성공적으로 등록되었습니다.')
       // 페이지를 변경합니다.
-      replys.value.push(requestData.comment)
+    })
+    .then(() => {
+      getArticle()
+      router.push(router.currentRoute)
     })
     .catch((error) => {
       console.error('댓글 등록 중 오류가 발생했습니다.', error)
