@@ -1,23 +1,8 @@
 <script setup>
 import { Axios } from '@/util/http-common'
-import { onMounted, ref, watchEffect } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+import { ref, watchEffect } from 'vue'
+import { useRouter } from 'vue-router'
 
-// defineProps({
-//   article: {
-//     type: Object,
-//     default: () => ({
-//       articleNo: 0,
-//       memberId: '',
-//       subject: '',
-//       content: '',
-//       hit: 0
-//     })
-//   },
-//   comments: {
-//     type: Array
-//   }
-// })
 const props = defineProps({
   articleno: Number
 })
