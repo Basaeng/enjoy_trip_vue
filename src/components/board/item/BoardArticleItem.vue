@@ -1,4 +1,8 @@
 <script setup>
+import { Axios } from '@/util/http-common'
+import { ref } from 'vue'
+import { useRoute, useRouter } from 'vue-router'
+
 defineProps({
   article: {
     type: Object,
@@ -14,6 +18,78 @@ defineProps({
     type: Array
   }
 })
+const router = useRouter()
+const route = useRoute()
+
+const golist = () => {
+  router.push({ name: 'board' })
+}
+
+const showReplyForm = (commentId, buttonElement) => {
+  ////답글 버튼의 DOM 참조
+  // 답글 폼의 위치를 결정하고 표시하기
+  var commentElement = buttonElement.closest('.comment') //가까운 부모 .comment로 찾아서 다음에 폼 표시
+  var replyFormContainer = document.getElementById('reply-form-container')
+  commentElement.after(replyFormContainer) //commentElement 뒤에 replyFormContainer를 삽입한다.
+
+  // 답글 폼에 필요한 데이터 설정하기
+  document.getElementById('reply-article-no').value = buttonElement.dataset.articleNo
+  document.getElementById('reply-parent-id').value = buttonElement.dataset.parentId
+  document.getElementById('reply-comment').value = '' // 댓글 입력란 비우기
+
+  // 답글 폼 표시
+  replyFormContainer.style.display = 'block'
+}
+
+const commentContent = ref('')
+const replyContent = ref('')
+
+const http = Axios()
+
+const registComment = (articleNo) => {
+  console.log(articleNo)
+  console.log(commentContent.value)
+  const requestData = {
+    comment: commentContent.value,
+    articleNo: articleNo
+  }
+  const comments = ref([])
+  http
+    .post('/api/comment', requestData)
+    .then((response) => {
+      console.log('댓글이 성공적으로 등록되었습니다.', response.data)
+      alert('댓글이 성공적으로 등록되었습니다.')
+      // 페이지를 변경합니다.
+      comments.value.push(requestData.comment)
+    })
+    .catch((error) => {
+      console.error('댓글 등록 중 오류가 발생했습니다.', error)
+    })
+}
+
+const registReply = () => {
+  var articleNo = document.getElementById('reply-article-no').value
+  var parentId = document.getElementById('reply-parent-id').value
+  var comment = document.getElementById('reply-comment').value // 댓글 내용 가져오기
+
+  const requestData = {
+    comment,
+    parentId,
+    articleNo
+  }
+  const replys = ref([])
+  http
+    .post('/api/comment', requestData)
+    .then((response) => {
+      console.log('댓글이 성공적으로 등록되었습니다.', response.data)
+      alert('댓글이 성공적으로 등록되었습니다.')
+      // 페이지를 변경합니다.
+      replys.value.push(requestData.comment)
+    })
+    .catch((error) => {
+      console.error('댓글 등록 중 오류가 발생했습니다.', error)
+    })
+}
 </script>
 
 <template>
@@ -41,7 +117,12 @@ defineProps({
       <div class="text-secondary">{{ article.content }}</div>
       <div class="divider mt-3 mb-3"></div>
       <div class="d-flex justify-content-end">
-        <button type="button" id="btn-list" class="btn mini btn-outline-primary mb-3">
+        <button
+          type="button"
+          @click="golist"
+          id="btn-list"
+          class="btn mini btn-outline-primary mb-3"
+        >
           글목록
         </button>
         <!-- <%-- 					${loginedUser.memberId} ${article.memberId}
@@ -114,7 +195,7 @@ defineProps({
           v-if="comment.depth === 0"
           type="button"
           class="btn-reply btn mini yellow mb-3 ms-1"
-          @click="showReplyForm(comment.commentId, $event)"
+          @click="showReplyForm(comment.commentId, $event.target)"
           :data-article-no="article.articleNo"
           :data-parent-id="comment.commentId"
         >
@@ -135,8 +216,12 @@ defineProps({
 
     <!-- 대댓글 작성 폼 -->
     <div id="reply-form-container" style="display: none">
-      <form id="reply-form" class="reply-form d-flex flex-column align-items-end">
-        <input type="hidden" id="articleNo" name="articleNo" value="${article.articleNo}" />
+      <form
+        id="reply-form"
+        class="reply-form d-flex flex-column align-items-end"
+        @submit.prevent="registReply"
+      >
+        <input type="hidden" id="articleNo" name="articleNo" :value="article.articleNo" />
         <input type="hidden" id="reply-article-no" />
         <input type="hidden" id="reply-parent-id" />
         <textarea
@@ -144,6 +229,7 @@ defineProps({
           id="reply-comment"
           rows="3"
           placeholder="답글을 입력하세요."
+          v-model="replyContent"
         ></textarea>
         <button type="submit" class="btn green mini">답글 등록</button>
       </form>
@@ -152,8 +238,12 @@ defineProps({
     <!-- 댓글 작성 섹션 -->
     <div class="comment-write">
       <label for="comment" class="form-label">댓글</label>
-      <form id="comment-form" class="d-flex flex-column align-items-end">
-        <input type="hidden" id="articleNo" name="articleNo" value="${article.articleNo}" />
+      <form
+        id="comment-form"
+        @submit.prevent="registComment(article.articleNo)"
+        class="d-flex flex-column align-items-end"
+      >
+        <input type="hidden" id="articleNo" name="articleNo" :value="article.articleNo" />
         <textarea
           class="form-control"
           id="comment"
@@ -161,6 +251,7 @@ defineProps({
           placeholder="댓글을 입력하세요. 글자수는 3000자를 넘지 않아야 합니다."
           rows="4"
           maxlength="3000"
+          v-model="commentContent"
         ></textarea>
         <div class="d-flex justify-content-between align-items-center">
           <button type="submit" class="btn green mini">등록</button>

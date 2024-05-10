@@ -51,7 +51,7 @@ const apiurl = import.meta.env.VITE_MAIN_URL
               <a class="nav-link" aria-current="page" href="#">핫플자랑하기</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="board/list">여행정보공유</a>
+              <a class="nav-link" aria-current="page" href="/board/list">여행정보공유</a>
             </li>
             <!-- </c:if> -->
           </ul>
