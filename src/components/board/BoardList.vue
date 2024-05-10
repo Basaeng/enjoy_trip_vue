@@ -1,7 +1,7 @@
 <script setup>
 import { Axios } from '@/util/http-common'
 import { onMounted, ref } from 'vue'
-import BoardListArticle from '@/components/board/article/BoardListArticle.vue'
+import BoardListItem from '@/components/board/item/BoardListItem.vue'
 
 onMounted(() => {
   getBoardList()
@@ -322,7 +322,7 @@ const getBoardList = () => {
           </div>
 
           <!-- BoardListArticle -->
-          <BoardListArticle :articles="articles" />
+          <BoardListItem :articles="articles" />
         </div>
         <!-- <div class="row">${navigation.navigator}</div> -->
       </div>

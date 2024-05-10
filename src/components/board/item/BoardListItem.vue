@@ -20,7 +20,7 @@ defineProps({
         <tr class="text-center" v-for="article in articles" :key="article.articleNo">
           <th scope="row">{{ article.articleNo }}</th>
           <td class="text-start">
-            {{ article.subject }}
+            <a :href="'view/' + article.articleNo">{{ article.subject }}</a>
           </td>
           <td>{{ article.memberId }}</td>
           <td>{{ article.hit }}</td>
