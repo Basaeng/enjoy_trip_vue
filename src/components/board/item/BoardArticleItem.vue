@@ -44,9 +44,11 @@ const showReplyForm = (commentId, buttonElement) => {
   replyFormContainer.style.display = 'block'
 }
 
+// 댓글, 대댓글 등록 동적변수
 const commentContent = ref('')
 const replyContent = ref('')
 
+// 댓글등록
 const registComment = (articleNo) => {
   console.log(articleNo)
   console.log(commentContent.value)
@@ -70,6 +72,7 @@ const registComment = (articleNo) => {
     })
 }
 
+// 대댓글 등록
 const registReply = () => {
   var articleNo = document.getElementById('reply-article-no').value
   var parentId = document.getElementById('reply-parent-id').value
@@ -94,6 +97,16 @@ const registReply = () => {
     .catch((error) => {
       console.error('댓글 등록 중 오류가 발생했습니다.', error)
     })
+}
+
+const moveModify = () => {
+  const { articleNo } = article.value
+  router.push({
+    name: 'boardmodify',
+    params: {
+      articleNo: articleNo
+    }
+  })
 }
 </script>
 
@@ -130,10 +143,18 @@ const registReply = () => {
         >
           글목록
         </button>
+
+        <!-- 로그인한 유저와 게시글 유저의 아이디가 같다면 선택 가능한 메뉴  -->
+        <!-- 로그인 구현 이후 수정 필요 -->
         <!-- <%-- 					${loginedUser.memberId} ${article.memberId}
 						${loginedUser.memberId eq  article.memberId} --%> -->
         <!-- <c:if test="${loginedUser.memberId eq  article.memberId }"> -->
-        <button type="button" id="btn-mv-modify" class="btn mini btn-outline-success mb-3 ms-1">
+        <button
+          type="button"
+          id="btn-mv-modify"
+          class="btn mini btn-outline-success mb-3 ms-1"
+          @click="moveModify"
+        >
           글수정
         </button>
         <button type="button" id="btn-delete" class="btn mini btn-outline-danger mb-3 ms-1">
