@@ -31,6 +31,11 @@ const router = createRouter({
           component: BoardList
         }
       ]
+    },
+    {
+      path: '/trip',
+      name: 'trip',
+      component: () => import('@/components/trip/TouristSpot.vue')
     }
   ]
 })
