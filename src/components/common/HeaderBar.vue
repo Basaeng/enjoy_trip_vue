@@ -39,7 +39,7 @@ const apiurl = import.meta.env.VITE_MAIN_URL
           <!-- 관광지 관련 링크 -->
           <ul class="navbar-nav">
             <li class="nav-item">
-              <router-link :to="{ name: 'trip' }">지역별 관광지</router-link>
+              <router-link class="nav-link" :to="{ name: 'trip' }">지역별 관광지</router-link>
             </li>
 
             <!-- 로그인 상태에 따른 링크 렌더링 -->
@@ -168,4 +168,6 @@ const apiurl = import.meta.env.VITE_MAIN_URL
   </div>
 </template>
 
-<style scoped></style>
+<style scoped>
+
+</style>
