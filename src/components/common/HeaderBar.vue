@@ -1,5 +1,6 @@
 <script setup>
 import { Axios } from '@/util/http-common'
+import { RouterLink, RouterView } from 'vue-router'
 
 const http = Axios()
 const apiurl = import.meta.env.VITE_MAIN_URL
@@ -38,7 +39,7 @@ const apiurl = import.meta.env.VITE_MAIN_URL
           <!-- 관광지 관련 링크 -->
           <ul class="navbar-nav">
             <li class="nav-item">
-              <a class="nav-link" aria-current="page" href="touristSpot">지역별관광지</a>
+              <router-link :to="{ name: 'trip' }">지역별 관광지</router-link>
             </li>
 
             <!-- 로그인 상태에 따른 링크 렌더링 -->

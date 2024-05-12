@@ -80,6 +80,11 @@ const router = createRouter({
           component: QnaBoardModify
         }
       ]
+    },
+    {
+      path: '/trip',
+      name: 'trip',
+      component: () => import('@/components/trip/TouristSpot.vue')
     }
   ]
 })
