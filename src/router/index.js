@@ -5,6 +5,10 @@ import MainView from '@/views/MainView.vue'
 import BoardArticle from '@/components/board/BoardArticle.vue'
 import BoardWrite from '@/components/board/BoardWrite.vue'
 import BoardModify from '@/components/board/BoardModify.vue'
+import QnaBoardList from '@/components/qnaboard/QnaBoardList.vue'
+import QnaBoardArticle from '@/components/qnaboard/QnaBoardArticle.vue'
+import QnaBoardWrite from '@/components/qnaboard/QnaBoardWrite.vue'
+import QnaBoardModify from '@/components/qnaboard/QnaBoardModify.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -43,9 +47,37 @@ const router = createRouter({
           component: BoardWrite
         },
         {
-          path: 'modify',
+          path: 'modify/:articleno',
           name: 'boardmodify',
           component: BoardModify
+        }
+      ]
+    },
+    {
+      path: '/qnaboard',
+      name: 'qnaboard',
+      component: BoardView,
+      redirect: { name: 'qnaboardlist' },
+      children: [
+        {
+          path: 'list',
+          name: 'qnaboardlist',
+          component: QnaBoardList
+        },
+        {
+          path: 'view/:articleno',
+          name: 'qnaboardarticle',
+          component: QnaBoardArticle
+        },
+        {
+          path: 'write',
+          name: 'qnaboardwrite',
+          component: QnaBoardWrite
+        },
+        {
+          path: 'modify/:articleno',
+          name: 'qnaboardmodify',
+          component: QnaBoardModify
         }
       ]
     }

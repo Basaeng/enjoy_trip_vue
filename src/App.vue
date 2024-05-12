@@ -1,6 +1,7 @@
 <script setup>
 import { RouterLink, RouterView } from 'vue-router'
 import HeaderBar from './components/common/HeaderBar.vue'
+import FooterBar from './components/common/FooterBar.vue'
 </script>
 
 <template>
@@ -12,13 +13,10 @@ import HeaderBar from './components/common/HeaderBar.vue'
   </header>
   <body>
     <RouterView />
-    <nav>
-      <RouterLink to="/">Home</RouterLink>
-      <RouterLink to="/about">About</RouterLink>
-      <router-link :to="{ name: 'board' }">Board</router-link>
-      <router-link :to="{ name: 'main' }"></router-link>
-    </nav>
   </body>
+  <!-- <footer>
+    <FooterBar/>
+  </footer> -->
 </template>
 
 <style scope>
@@ -44,6 +42,7 @@ import HeaderBar from './components/common/HeaderBar.vue'
   font-family: 'TTHakgyoansimYeohaengR', sans-serif;
   /* WAGURITTF 폰트 적용, 폰트가 로드되지 않았을 경우에는 sans-serif 폰트를 대체로 사용 */
 }
+
 
 .footer {
   height: 150px; /* 실제 푸터의 높이 */

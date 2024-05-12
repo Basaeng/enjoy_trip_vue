@@ -13,14 +13,14 @@ const router = useRouter()
 const articles = ref()
 
 const getBoardList = () => {
-  http.get('/api/list').then(({ data }) => {
+  http.get('/qna/list').then(({ data }) => {
     console.log(data)
     articles.value = data.articles
   })
 }
 
 const moveWriteForm = () => {
-  router.push({ name: 'boardwrite' })
+  router.push({ name: 'qnaboardwrite' })
 }
 
 const key = ref('')
@@ -28,7 +28,7 @@ const word = ref('')
 
 const search = () => {
   http
-    .get('/api/list', {
+    .get('/qna/list', {
       params: {
         key: key.value,
         word: word.value
@@ -53,7 +53,7 @@ const search = () => {
       <div class="row justify-content-center">
         <div class="col-lg-8 col-md-10 col-sm-12">
           <h2 class="my-3 py-3 shadow-sm bg-light text-center">
-            <mark class="sky">글목록</mark>
+            <mark class="sky">Q&A목록</mark>
           </h2>
         </div>
         <div class="col-lg-8 col-md-10 col-sm-12">
@@ -112,7 +112,6 @@ const search = () => {
 </template>
 
 <style scoped>
-
 /* board 패키지에서 컨테이너 영역 잡는 css */
 .container {
   margin-top: 150px; /* 상단 마진 설정 */

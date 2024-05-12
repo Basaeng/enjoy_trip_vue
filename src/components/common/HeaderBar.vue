@@ -53,6 +53,9 @@ const apiurl = import.meta.env.VITE_MAIN_URL
             <li class="nav-item">
               <a class="nav-link" aria-current="page" href="/board/list">여행정보공유</a>
             </li>
+            <li class="nav-item">
+              <a class="nav-link" aria-current="page" href="/qnaboard/list">Q&A</a>
+            </li>
             <!-- </c:if> -->
           </ul>
 

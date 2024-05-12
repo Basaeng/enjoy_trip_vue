@@ -28,7 +28,7 @@ const article = ref('')
 
 const http = Axios()
 const getArticle = () => {
-  http.get(`api/article/${articleno}`).then(({ data }) => {
+  http.get(`qna/article/${articleno}`).then(({ data }) => {
     console.log(data)
     article.value = data.article
     console.log(article.value)
@@ -40,7 +40,7 @@ const modifyArticle = () => {
     subject: article.value.subject,
     content: article.value.content
   }
-  http.put(`api/article/${articleno}`, requestData)
+  http.put(`qna/article/${articleno}`, requestData)
   .then((response) => {
       console.log('게시글이 성공적으로 수정되었습니다.', response.data)
       alert('게시글이 성공적으로 수정되었습니다.')
@@ -56,7 +56,7 @@ const modifyArticle = () => {
 }
 
 const golist = () => {
-  router.push({ name: 'board' })
+  router.push({ name: 'qnaboard' })
 }
 
 </script>

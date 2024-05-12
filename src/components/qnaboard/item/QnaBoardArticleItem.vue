@@ -11,7 +11,7 @@ const article = ref('')
 const comments = ref('')
 const http = Axios()
 const getArticle = () => {
-  http.get(`api/article/${props.articleno}`).then(({ data }) => {
+  http.get(`qna/article/${props.articleno}`).then(({ data }) => {
     console.log(data)
     article.value = data.article
     comments.value = data.comments
@@ -25,7 +25,7 @@ watchEffect(() => {
 const router = useRouter()
 
 const golist = () => {
-  router.push({ name: 'board' })
+  router.push({ name: 'qnaboard' })
 }
 
 const showReplyForm = (commentId, buttonElement) => {
@@ -57,7 +57,7 @@ const registComment = (articleNo) => {
     articleNo: articleNo
   }
   http
-    .post('/api/comment', requestData)
+    .post('/qna/comment', requestData)
     .then(({ data }) => {
       console.log('댓글이 성공적으로 등록되었습니다.', data)
       alert('댓글이 성공적으로 등록되었습니다.')
@@ -84,7 +84,7 @@ const registReply = () => {
     articleNo
   }
   http
-    .post('/api/comment', requestData)
+    .post('/qna/comment', requestData)
     .then(({ data }) => {
       console.log('댓글이 성공적으로 등록되었습니다.', data)
       alert('댓글이 성공적으로 등록되었습니다.')
@@ -103,7 +103,7 @@ const registReply = () => {
 const moveModify = () => {
   const { articleNo } = article.value
   router.push({
-    name: 'boardmodify',
+    name: 'qnaboardmodify',
     params: {
       articleNo: articleNo
     }
@@ -112,7 +112,7 @@ const moveModify = () => {
 
 const deleteArticle = () => {
   if (confirm("글을 삭제하시겠습니까?")) {
-				http.delete(`/api/article/${props.articleno}`)
+				http.delete(`/qna/article/${props.articleno}`)
         .then(({ data }) => {
       console.log('게시글이 성공적으로 삭제되었습니다.', data)
       alert('게시글이 성공적으로 삭제되었습니다.')
@@ -120,7 +120,7 @@ const deleteArticle = () => {
     })
     .then(() => {
       getArticle()
-      router.push({name: 'boardlist'})
+      router.push({name: 'qnaboardlist'})
     })
     .catch((error) => {
       console.error('게시글 등록 중 오류가 발생했습니다.', error)
@@ -130,7 +130,7 @@ const deleteArticle = () => {
 
 const deleteComment = (commentId) => {
   if (confirm("댓글을 삭제하시겠습니까?")){
-    http.delete(`/api/comment/${commentId}`) 
+    http.delete(`/qna/comment/${commentId}`) 
     .then(({ data }) => {
       console.log('댓글이 성공적으로 삭제되었습니다.', data)
       alert('댓글이 성공적으로 삭제되었습니다.')
@@ -178,7 +178,7 @@ const deleteComment = (commentId) => {
           id="btn-list"
           class="btn mini btn-outline-primary mb-3"
         >
-          글목록
+          Q&A목록
         </button>
 
         <!-- 로그인한 유저와 게시글 유저의 아이디가 같다면 선택 가능한 메뉴  -->
@@ -192,10 +192,10 @@ const deleteComment = (commentId) => {
           class="btn mini btn-outline-success mb-3 ms-1"
           @click="moveModify"
         >
-          글수정
+          질문수정
         </button>
         <button type="button" id="btn-delete" class="btn mini btn-outline-danger mb-3 ms-1" @click="deleteArticle">
-          글삭제
+          질문삭제
         </button>
         <!-- </c:if> -->
       </div>
@@ -294,13 +294,13 @@ const deleteComment = (commentId) => {
           placeholder="답글을 입력하세요."
           v-model="replyContent"
         ></textarea>
-        <button type="submit" class="btn green mini">답글 등록</button>
+        <button type="submit" class="btn green mini">답변 등록</button>
       </form>
     </div>
 
     <!-- 댓글 작성 섹션 -->
     <div class="comment-write">
-      <label for="comment" class="form-label">댓글</label>
+      <label for="comment" class="form-label">답변</label>
       <form
         id="comment-form"
         @submit.prevent="registComment(article.articleNo)"
@@ -311,7 +311,7 @@ const deleteComment = (commentId) => {
           class="form-control"
           id="comment"
           name="comment"
-          placeholder="댓글을 입력하세요. 글자수는 3000자를 넘지 않아야 합니다."
+          placeholder="답변을 입력하세요. 글자수는 3000자를 넘지 않아야 합니다."
           rows="4"
           maxlength="3000"
           v-model="commentContent"
